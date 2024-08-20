@@ -1,0 +1,33 @@
+
+*{
+    box-sizing: border-box;
+    
+}
+
+body {
+   
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: linear-gradient(135deg,#99b8e7,#041a3b);
+    height: 100vh;
+    width: 100%;
+    
+}
+h1{
+    font-display: blacksquare;
+}
+h3{
+    font-weight: bold;
+}
+.forecast{
+    box-sizing: content-box;
+    font-size: 0.9em;
+    background: linear-gradient(135deg, #041a3b,#99b8e7);
+}
+span{
+    font-size: 1em;
+}
+li:hover{
+    background-color: rgb(124, 236, 238);
+    text-decoration: underline;
+}
