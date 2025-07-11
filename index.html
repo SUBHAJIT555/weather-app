@@ -1,96 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Weather Application</title>
-    <!--Bootstrap CSS CDN-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
-    <!-- Font Awesome CSS Icons (For cool glyphicons) -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!--Jumbotron for Title-->
-    <div class="jumbotron container-fluid mt-2 text-center p-2" style="background-color:#007baa; ;color: white;">
-        <h1> <strong>Weather Application</strong></h1>
+    <!--Bootstrap 5 CSS CDN-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome CSS Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay d-none">
+      <div class="loading-spinner">
+        <i class="fas fa-cloud-sun fa-spin"></i>
+        <p>Loading weather data...</p>
+      </div>
     </div>
-    <div class="container">
-        <!--Row for searching a city-->
-        <div class="row">
-            <div class="col-sm-3 bg-light">
-                <!--Here we create an HTML form for handling the inputs-->
-                <h4 class="pt-1"><strong>Search for a City:</strong></h4>
-                <!--Here we create the text box for capturing the search city Name-->
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control"id="search-city" aria-label="City Search" aria-describedby="search-button">
-                    <div class="input-group-append">
-                        <button class=" btn bg-primary text-light" id="search-button"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-                <!--section for search city history-->
-                <button class=" btn btn-primary" type="button" id="clear-history">Clear history</button>
-                <ul class="list-group">
 
-                </ul>
-            </div>   
-            <div class="col-sm-8">
-                <div class="row ml-2 border border-dark rounded">
-                    <div class="col-sm-12" id="current-weather">
-                        <h3 class="city-name mb-1 mt-2 bolder" id="current-city"></h3>
-                        <p>Temperature:<span class="current" id="temperature"></span></p>
-                        <p>Humidity:<span class="current" id="humidity"></span></p> 
-                        <p>Wind Speed:<span class="current" id="wind-speed"></span></p>
-                        <p>UV index:<span class="current bg-danger rounded py-2 px-2 text-white" id="uv-index"></span></p> 
-                    </div>
-                </div>
-                <!--Row for future data to be dumped here-->
-                <div class="col-sm-12" id ="future-weather">
-                    <h3>5-Day Forecast:</h3>
-                    <div class="row text-light">
-                        <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded" >
-                            <p id="fDate0"></p>
-                            <p id="fImg0"></p>
-                            <p>Temp:<span id="fTemp0"></span></p>
-                            <p>Humidity:<span id="fHumidity0"></span></p>
-                        </div>
-                        <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded" >
-                            <p id="fDate1"></p>
-                            <p id="fImg1"></p>
-                            <p>Temp:<span id="fTemp1"></span></p>
-                            <p>Humidity:<span id="fHumidity1"></span></p>
-                        </div>
-                        <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
-                            <p id="fDate2"></p>
-                            <p id="fImg2"></p>
-                            <p>Temp:<span id="fTemp2"></span></p>
-                            <p>Humidity:<span id="fHumidity2"></span></p>
-                        </div>
-                        <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
-                            <p id="fDate3"></p>
-                            <p id="fImg3"></p>
-                            <p>Temp:<span id="fTemp3"></span></p>
-                            <p>Humidity:<span id="fHumidity3"></span></p>
-                        </div>
-                        <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded" >
-                            <p id="fDate4"></p>
-                            <p id="fImg4"></p>
-                            <p>Temp:<span id="fTemp4"></span></p>
-                            <p>Humidity:<span id="fHumidity4"></span></p>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
+    <!-- Header -->
+    <header class="header-section">
+      <div class="container">
+        <div class="row align-items-center py-4">
+          <div class="col-12 text-center">
+            <h1 class="header-title mb-0">
+              <i class="fas fa-cloud-sun me-3"></i>
+              Weather Forecast
+            </h1>
+            <p class="header-subtitle">
+              Get real-time weather updates for any city
+            </p>
+          </div>
         </div>
-        
+      </div>
+    </header>
+
+    <div class="container-fluid px-4">
+      <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-md-4">
+          <div class="sidebar-card">
+            <div class="search-section">
+              <h5 class="section-title">
+                <i class="fas fa-search me-2"></i>
+                Search City
+              </h5>
+
+              <div class="search-container">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control search-input"
+                    id="search-city"
+                    placeholder="Enter city name..."
+                    aria-label="City Search"
+                  />
+                  <button
+                    class="btn search-btn"
+                    id="search-button"
+                    type="button"
+                  >
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search History -->
+            <div class="history-section mt-4">
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <h6 class="section-title mb-0">
+                  <i class="fas fa-history me-2"></i>
+                  Recent Searches
+                </h6>
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  id="clear-history"
+                >
+                  <i class="fas fa-trash me-1"></i>
+                  Clear
+                </button>
+              </div>
+              <ul class="list-group search-history"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9 col-md-8">
+          <!-- Current Weather Card -->
+          <div
+            class="weather-card current-weather-card mb-4"
+            id="current-weather"
+          >
+            <div class="card-header">
+              <h4 class="mb-0">
+                <i class="fas fa-location-dot me-2"></i>
+                Current Weather
+              </h4>
+            </div>
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-8">
+                  <h2 class="city-name mb-3" id="current-city"></h2>
+                  <div class="row">
+                    <div class="col-sm-6 mb-3">
+                      <div class="weather-metric">
+                        <i class="fas fa-thermometer-half metric-icon"></i>
+                        <div class="metric-info">
+                          <span class="metric-label">Temperature</span>
+                          <span class="metric-value" id="temperature"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <div class="weather-metric">
+                        <i class="fas fa-tint metric-icon"></i>
+                        <div class="metric-info">
+                          <span class="metric-label">Humidity</span>
+                          <span class="metric-value" id="humidity"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <div class="weather-metric">
+                        <i class="fas fa-wind metric-icon"></i>
+                        <div class="metric-info">
+                          <span class="metric-label">Wind Speed</span>
+                          <span class="metric-value" id="wind-speed"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <div class="weather-metric">
+                        <i class="fas fa-sun metric-icon"></i>
+                        <div class="metric-info">
+                          <span class="metric-label">UV Index</span>
+                          <span
+                            class="metric-value uv-index"
+                            id="uv-index"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5-Day Forecast -->
+          <div class="forecast-section">
+            <h4 class="section-title mb-4">
+              <i class="fas fa-calendar-days me-2"></i>
+              5-Day Forecast
+            </h4>
+            <div class="row g-3" id="future-weather">
+              <div class="col-lg col-md-6">
+                <div class="forecast-card">
+                  <div class="forecast-date" id="fDate0"></div>
+                  <div class="forecast-icon" id="fImg0"></div>
+                  <div class="forecast-temp" id="fTemp0"></div>
+                  <div class="forecast-humidity">
+                    <i class="fas fa-tint me-1"></i>
+                    <span id="fHumidity0"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg col-md-6">
+                <div class="forecast-card">
+                  <div class="forecast-date" id="fDate1"></div>
+                  <div class="forecast-icon" id="fImg1"></div>
+                  <div class="forecast-temp" id="fTemp1"></div>
+                  <div class="forecast-humidity">
+                    <i class="fas fa-tint me-1"></i>
+                    <span id="fHumidity1"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg col-md-6">
+                <div class="forecast-card">
+                  <div class="forecast-date" id="fDate2"></div>
+                  <div class="forecast-icon" id="fImg2"></div>
+                  <div class="forecast-temp" id="fTemp2"></div>
+                  <div class="forecast-humidity">
+                    <i class="fas fa-tint me-1"></i>
+                    <span id="fHumidity2"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg col-md-6">
+                <div class="forecast-card">
+                  <div class="forecast-date" id="fDate3"></div>
+                  <div class="forecast-icon" id="fImg3"></div>
+                  <div class="forecast-temp" id="fTemp3"></div>
+                  <div class="forecast-humidity">
+                    <i class="fas fa-tint me-1"></i>
+                    <span id="fHumidity3"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg col-md-6">
+                <div class="forecast-card">
+                  <div class="forecast-date" id="fDate4"></div>
+                  <div class="forecast-icon" id="fImg4"></div>
+                  <div class="forecast-temp" id="fTemp4"></div>
+                  <div class="forecast-humidity">
+                    <i class="fas fa-tint me-1"></i>
+                    <span id="fHumidity4"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
+
+    <!--Bootstrap 5 JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!--jQuery JS-->
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-    <!--Code to Jvascript File-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--Custom JavaScript-->
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
